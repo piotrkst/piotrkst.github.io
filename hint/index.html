@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Forensic Scientist's hint</title>
+<style>
+  :root { --burgundy: #873A40; --burgundy-dark: #4D252E; --teal: #318880; --teal-light: #DDEFED; --subtle: #6E5A5E; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--burgundy-dark);
+    background: linear-gradient(#F3F0F1, #4D252E);
+  }
+  main { background: #fff; border-radius: 24px; padding: 28px; max-width: 420px; width: 100%; box-shadow: 0 4px 24px rgba(0,0,0,.18); text-align: center; }
+  h1 { font-size: 20px; margin: 0 0 18px; }
+  .hint { background: var(--teal-light); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+  .tile { color: var(--burgundy); font-size: 16px; font-weight: 600; }
+  .option { font-size: 24px; font-weight: 700; margin-top: 6px; }
+  a.button { display: inline-block; background: var(--teal); color: #fff; text-decoration: none; font-weight: 600; padding: 13px 26px; border-radius: 24px; }
+  p { color: var(--subtle); font-size: 14px; line-height: 1.5; margin: 16px 0 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="title">Forensic Scientist's hint</h1>
+  <div class="hint" id="hint" hidden>
+    <div class="tile" id="tile"></div>
+    <div class="option" id="option"></div>
+  </div>
+  <a class="button" id="open" hidden>Open in the app</a>
+  <p id="note"></p>
+</main>
+<script>
+  // The app (Deception: detective's notebook) opens these links itself; this page is for when it doesn't.
+  var pl = /^pl\b/i.test(navigator.language || "");
+  var text = pl ? {
+    title: "Podpowiedź Technika Kryminalnego", open: "Otwórz w aplikacji",
+    android: "Dotknij przycisku, aby dodać podpowiedź do notatnika detektywa.",
+    other: "Otwórz ten link na telefonie z Androidem, na którym jest aplikacja.",
+    missing: "Ten link nie zawiera podpowiedzi."
+  } : {
+    title: "Forensic Scientist's hint", open: "Open in the app",
+    android: "Tap the button to add the hint to your detective's notebook.",
+    other: "Open this link on an Android phone that has the app.",
+    missing: "This link doesn't contain a hint."
+  };
+  if (pl) document.documentElement.lang = "pl";
+  document.title = text.title;
+  document.getElementById("title").textContent = text.title;
+  var query = new URLSearchParams(location.search);
+  var tile = query.get("tile"), option = query.get("option");
+  var note = document.getElementById("note");
+  if (!tile || !option) {
+    note.textContent = text.missing;
+  } else {
+    document.getElementById("tile").textContent = tile;
+    document.getElementById("option").textContent = option;
+    document.getElementById("hint").hidden = false;
+    if (/android/i.test(navigator.userAgent)) {
+      var open = document.getElementById("open");
+      open.textContent = text.open;
+      open.href = "intent://hint?" + query.toString() +
+        "#Intent;scheme=deception;package=pl.piotrkostecki.deception;end";
+      open.hidden = false;
+      note.textContent = text.android;
+    } else {
+      note.textContent = text.other;
+    }
+  }
+</script>
+</body>
+</html>
