@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "pl.piotrkostecki.deception",
+      "sha256_cert_fingerprints": [
+        "12:92:84:0E:B1:3D:D4:23:85:41:A3:F4:07:55:2B:79:F7:2A:B6:F8:1B:81:7A:23:D9:E7:D0:77:88:B4:05:CA"
+      ]
+    }
+  }
+]
